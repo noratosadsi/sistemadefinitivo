@@ -73,10 +73,21 @@ $result1=$mysql->query("select * from costo where vehiculo='moto'")
 <p name="error" align="center">
 <?php
 
+//if (isset($_REQUEST["error"])){ echo "<script>alert('error actualizando costo');</script>";};
 
-if (isset($_REQUEST["error"])){ echo "<script>alert('error actualizando costo $error');</script>";};
+switch(isset($_REQUEST["error"]))
+{
+	case "bicicletasmes":
+	echo "<script>alert('error actualizando costo por mes en motos');</script>";
+	break;
+	case "motosmes":
+	echo "<script>alert('error actualizando costo por mes en bicicletas');</script>";
+	break;
 
-if (isset($_GET["actualizado"])){ echo "<script>alert('se ha actualizado el precio');</script>";};
+};
+
+
+if (isset($_REQUEST["actualizado"])){ echo "<script>alert('se ha actualizado el precio');</script>";};
 ?>
 </p>
 </div> 
