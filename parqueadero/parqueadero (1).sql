@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 27-08-2018 a las 03:35:15
--- Versión del servidor: 5.7.19
--- Versión de PHP: 5.6.31
+-- Tiempo de generación: 30-08-2018 a las 21:27:21
+-- Versión del servidor: 5.7.21
+-- Versión de PHP: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,47 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `bistaparqueados`
--- (Véase abajo para la vista actual)
---
-DROP VIEW IF EXISTS `bistaparqueados`;
-CREATE TABLE IF NOT EXISTS `bistaparqueados` (
-`id` int(11)
-,`numero` int(11)
-,`vehiculo` varchar(45)
-,`estmoto` int(11)
-,`estbici` int(11)
-,`idFactura` int(11)
-,`vehiculo_cliente_cedula` int(11)
-,`usuario_cedula` int(11)
-,`usuario_rol_idrol` int(11)
-,`costo_id` int(11)
-,`estacionamiento_id` int(11)
-,`matricula` varchar(45)
-,`marca` varchar(45)
-,`modelo` varchar(45)
-,`cliente_cedula` int(11)
-,`fechafactura` datetime
-,`horaingreso` datetime
-,`horasalida` datetime
-,`duracion` time
-,`precio` int(11)
-,`iva` int(11)
-,`total` int(11)
-,`factura_idFactura` int(11)
-,`cedula` int(11)
-,`nombre` varchar(45)
-,`apellido` varchar(45)
-,`telefono1` varchar(45)
-,`telefono2` varchar(45)
-,`idtipo` int(11)
-,`tipo` varchar(45)
-,`descripcion` varchar(45)
-);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `cliente`
 --
 
@@ -78,18 +37,6 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `telefono2` varchar(45) DEFAULT NULL COMMENT 'Segundo numero de telefono del cliente',
   PRIMARY KEY (`cedula`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `cliente`
---
-
-INSERT INTO `cliente` (`cedula`, `nombre`, `apellido`, `telefono1`, `telefono2`) VALUES
-(10, 'dfsg', 'sdfg', 'dsfg', 'dsfg'),
-(11, 'pepe', 'kjhkj', 'jhgj', 'jhgjkh'),
-(12, 'gsfdg', 'kjhkj', 'jkhgjk', 'jhgjkh'),
-(13, 'pepe', 'kjhkj', 'jkhgjk', 'jhgjkh'),
-(15, 'ergt', 'dfsg', 'dfsg', 'dfsg'),
-(16, 'nombre', 'apellido', 'tel1', 'tel2');
 
 -- --------------------------------------------------------
 
@@ -124,19 +71,19 @@ INSERT INTO `costo` (`id`, `vehiculo`, `pmin`, `phoras`, `pdias`, `pmensual`) VA
 
 DROP TABLE IF EXISTS `cupos`;
 CREATE TABLE IF NOT EXISTS `cupos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idcupo` int(11) NOT NULL,
   `vehiculo` varchar(45) NOT NULL,
-  `cantidad` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+  `cantidad` int(3) NOT NULL,
+  PRIMARY KEY (`idcupo`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `cupos`
 --
 
-INSERT INTO `cupos` (`id`, `vehiculo`, `cantidad`) VALUES
-(1, 'moto', '60'),
-(2, 'bicicleta', '60');
+INSERT INTO `cupos` (`idcupo`, `vehiculo`, `cantidad`) VALUES
+(1, 'moto', 60),
+(2, 'bicicleta', 60);
 
 -- --------------------------------------------------------
 
@@ -158,18 +105,6 @@ CREATE TABLE IF NOT EXISTS `detallefactura` (
   KEY `fk_Detalle_factura_Factura1_idx` (`factura_idFactura`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `detallefactura`
---
-
-INSERT INTO `detallefactura` (`fechafactura`, `horaingreso`, `horasalida`, `duracion`, `precio`, `iva`, `total`, `factura_idFactura`) VALUES
-('2018-08-23 23:30:03', '2018-08-23 22:43:53', '2018-08-23 23:30:03', '00:46:10', 60, 526, 2770, 5),
-('2018-08-23 22:45:37', '2018-08-23 22:45:37', NULL, NULL, 30, NULL, NULL, 6),
-('2018-08-24 22:12:57', '2018-08-24 22:12:09', '2018-08-24 22:12:57', '00:00:48', 60, 9, 48, 7),
-('2018-08-24 22:23:18', '2018-08-24 22:12:40', '2018-08-24 22:23:18', '00:10:38', 30, 61, 319, 8),
-('2018-08-26 08:10:37', '2018-08-26 08:10:33', '2018-08-26 08:10:37', '00:00:04', 30, 0, 2, 9),
-('2018-08-26 08:13:07', '2018-08-26 08:12:58', '2018-08-26 08:13:07', '00:00:09', 60, 2, 9, 10);
-
 -- --------------------------------------------------------
 
 --
@@ -183,20 +118,10 @@ CREATE TABLE IF NOT EXISTS `estacionamiento` (
   `vehiculo` varchar(45) DEFAULT NULL,
   `estmoto` int(11) DEFAULT NULL,
   `estbici` int(11) DEFAULT NULL,
+  `cupos_idcupo` varchar(50) DEFAULT NULL,
+  `cupos_id` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `estacionamiento`
---
-
-INSERT INTO `estacionamiento` (`id`, `numero`, `vehiculo`, `estmoto`, `estbici`) VALUES
-(5, 15, 'moto', NULL, NULL),
-(6, 15, 'bicicleta', NULL, NULL),
-(7, 16, 'moto', NULL, NULL),
-(8, 16, 'bicicleta', NULL, NULL),
-(9, 54, 'bicicleta', NULL, NULL),
-(10, 55, 'moto', NULL, NULL);
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -217,19 +142,7 @@ CREATE TABLE IF NOT EXISTS `factura` (
   KEY `fk_Factura_usuario1_idx` (`usuario_cedula`,`usuario_rol_idrol`),
   KEY `fk_factura_costo1_idx` (`costo_id`),
   KEY `fk_factura_estacionamiento1_idx` (`estacionamiento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `factura`
---
-
-INSERT INTO `factura` (`idFactura`, `vehiculo_cliente_cedula`, `usuario_cedula`, `usuario_rol_idrol`, `costo_id`, `estacionamiento_id`) VALUES
-(5, 10, 2, 2, 1, 5),
-(6, 11, 2, 2, 2, 5),
-(7, 12, 2, 2, 1, 7),
-(8, 13, 2, 2, 2, 8),
-(9, 15, 2, 2, 2, 9),
-(10, 16, 2, 2, 1, 10);
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -260,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `historicofacturado` (
   `iva` varchar(45) DEFAULT NULL,
   `total` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `historicofacturado`
@@ -274,7 +187,13 @@ INSERT INTO `historicofacturado` (`id`, `nomusu`, `apeusu`, `fechafacturado`, `c
 (149, 'administrador', 'parqueadero', '2018-03-29 15:39:57', '121', 'sadf', 'asdf', '', 'sadf', 'sadf', 'sdaf', 'dsaf', 'bicicleta', 'dsaf', '2018-03-29 15:39:57', '2018-03-29 15:40:19', '00:00:22', '9', '1', '10'),
 (153, 'administrador', 'parqueadero', '2018-03-29 15:59:21', '122', 'sdaf', 'sdaf', '', 'dsaf', 'sadf', 'sdaf', 'sdaf', 'bicicleta', 'sdfasdf', '2018-03-29 15:59:21', '2018-03-29 15:59:25', '00:00:04', '2', '0', '2'),
 (155, 'administrador', 'parqueadero', '2018-03-29 16:07:42', '126', 'dsaf', 'sadf', '', 'sdaf', 'sadf', 'dsaf', 'sdaf', 'bicicleta', 'sdaf', '2018-03-29 16:07:42', '2018-03-29 16:07:52', '00:00:10', '0', '0', '0'),
-(160, 'administrador', 'parqueadero', '2018-03-29 17:04:33', '120', 'sadf', 'sdaf', '', 'dsaf', 'sadf', 'sdf', 'sadf', 'moto', 'sdaf', '2018-03-29 17:04:33', '2018-03-29 17:59:50', '00:55:17', '2764', '442', '3206');
+(160, 'administrador', 'parqueadero', '2018-03-29 17:04:33', '120', 'sadf', 'sdaf', '', 'dsaf', 'sadf', 'sdf', 'sadf', 'moto', 'sdaf', '2018-03-29 17:04:33', '2018-03-29 17:59:50', '00:55:17', '2764', '442', '3206'),
+(189, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'),
+(190, 'administrador', 'parqueadero', '2018-08-29 12:06:10', '91', 'fsdg', 'sdfgsd', 'fgsd', 'fgsdfg', 'dfsg', 'fdsg', 'sdfg', 'moto', 'sdfg', '2018-08-29 12:06:10', '', '', '', '', '0'),
+(191, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0'),
+(194, 'administrador', 'parqueadero', '2018-08-29 12:18:27', '10', 'dsfg', 'dfsg', 'dsfg', 'dfsg', 'dfsg', 'dfg', 'dfsg', 'moto', 'sdfg', '2018-08-29 12:18:27', '', '', '', '', '0'),
+(195, 'usuario', 'parqueadero', '2018-08-30 14:55:43', '11', 'asdf', 'sadf', 'sadf', 'sadf', 'sadf', 'sdf', 'asdf', 'moto', 'asdf', '2018-08-30 14:55:43', '', '', '', '', '0'),
+(196, 'usuario', 'parqueadero', '2018-08-30 14:58:13', '11', 'asdf', 'sadf', 'sadf', 'sadf', 'sadf', 'sdf', 'asdf', 'moto', 'asdf', '2018-08-30 14:58:13', '', '', '', '', '0');
 
 -- --------------------------------------------------------
 
@@ -306,19 +225,7 @@ CREATE TABLE IF NOT EXISTS `parqueados` (
   `total` int(15) DEFAULT NULL,
   `estacionamiento` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `parqueados`
---
-
-INSERT INTO `parqueados` (`id`, `nomusu`, `apeusu`, `fechafacturado`, `cedulaclie`, `nomclie`, `apeclie`, `telclie1`, `telclie2`, `matricula`, `marca`, `modelo`, `tipo`, `descripcion`, `horaingreso`, `horasalida`, `duracion`, `precio`, `iva`, `total`, `estacionamiento`) VALUES
-(5, 'usuario', 'parqueadero', '2018-08-23 22:43:53', '10', 'dfsg', 'sdfg', 'dsfg', 'dsfg', 'dsfg', 'dfsg', 'dfsg', 'moto', 'sdfgdfsg', '2018-08-23 22:43:53', NULL, NULL, 60, NULL, NULL, 15),
-(6, 'usuario', 'parqueadero', '2018-08-23 22:45:36', '11', 'pepe', 'kjhkj', 'jhgj', 'jhgjkh', 'jhgj', 'jhkgkj', 'kljhkl', 'bicicleta', 'gfhdg', '2018-08-23 22:45:36', NULL, NULL, 30, NULL, NULL, 15),
-(7, 'usuario', 'parqueadero', '2018-08-24 22:12:09', '12', 'gsfdg', 'kjhkj', 'jkhgjk', 'jhgjkh', 'jhgj', 'jkhgjk', 'kljhkl', 'moto', 'gfhdg', '2018-08-24 22:12:09', NULL, NULL, 60, NULL, NULL, 16),
-(8, 'usuario', 'parqueadero', '2018-08-24 22:12:40', '13', 'pepe', 'kjhkj', 'jkhgjk', 'jhgjkh', 'jhgj', 'jkhgjk', 'kljhkl', 'bicicleta', 'gfhdg', '2018-08-24 22:12:40', NULL, NULL, 30, NULL, NULL, 16),
-(9, 'usuario', 'parqueadero', '2018-08-26 08:10:33', '15', 'ergt', 'dfsg', 'dfsg', 'dfsg', 'dsfg', 'dfsg', 'dsfg', 'bicicleta', 'sdfgsdfg', '2018-08-26 08:10:33', NULL, NULL, 30, NULL, NULL, 54),
-(10, 'usuario', 'parqueadero', '2018-08-26 08:12:58', '16', 'nombre', 'apellido', 'tel1', 'tel2', 'placa', 'marca', 'modelo', 'moto', 'descrip', '2018-08-26 08:12:58', NULL, NULL, 60, NULL, NULL, 55);
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -355,19 +262,7 @@ CREATE TABLE IF NOT EXISTS `tipo` (
   `vehiculo_cliente_cedula` int(11) NOT NULL COMMENT 'Cedula de la tabla cliente',
   PRIMARY KEY (`idtipo`,`vehiculo_cliente_cedula`),
   KEY `fk_tipo_vehiculo1_idx` (`vehiculo_cliente_cedula`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `tipo`
---
-
-INSERT INTO `tipo` (`idtipo`, `tipo`, `descripcion`, `vehiculo_cliente_cedula`) VALUES
-(5, 'moto', 'sdfgdfsg', 10),
-(6, 'bicicleta', 'gfhdg', 11),
-(7, 'moto', 'gfhdg', 12),
-(8, 'bicicleta', 'gfhdg', 13),
-(9, 'bicicleta', 'sdfgsdfg', 15),
-(10, 'moto', 'descrip', 16);
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -392,7 +287,9 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 INSERT INTO `usuario` (`cedula`, `nombre`, `apellido`, `contrasena`, `rol_idrol`) VALUES
 (1, 'administrador', 'parqueadero', 'adcd7048512e64b48da55b027577886ee5a36350', 1),
-(2, 'usuario', 'parqueadero', 'adcd7048512e64b48da55b027577886ee5a36350', 2);
+(2, 'usuario', 'parqueadero', 'adcd7048512e64b48da55b027577886ee5a36350', 2),
+(91, 'sdf', 'lkj', 'adcd7048512e64b48da55b027577886ee5a36350', 2),
+(92, 'dfds', 'sdf', 'adcd7048512e64b48da55b027577886ee5a36350', 2);
 
 -- --------------------------------------------------------
 
@@ -408,18 +305,6 @@ CREATE TABLE IF NOT EXISTS `vehiculo` (
   `cliente_cedula` int(11) NOT NULL COMMENT 'Cedula de la tabla cliente',
   PRIMARY KEY (`cliente_cedula`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `vehiculo`
---
-
-INSERT INTO `vehiculo` (`matricula`, `marca`, `modelo`, `cliente_cedula`) VALUES
-('dsfg', 'dfsg', 'dfsg', 10),
-('jhgj', 'jhkgkj', 'kljhkl', 11),
-('jhgj', 'jkhgjk', 'kljhkl', 12),
-('jhgj', 'jkhgjk', 'kljhkl', 13),
-('dsfg', 'dfsg', 'dsfg', 15),
-('placa', 'marca', 'modelo', 16);
 
 -- --------------------------------------------------------
 
@@ -465,20 +350,11 @@ CREATE TABLE IF NOT EXISTS `vistaparqueados` (
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `bistaparqueados`
---
-DROP TABLE IF EXISTS `bistaparqueados`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bistaparqueados`  AS  select `estacionamiento`.`id` AS `id`,`estacionamiento`.`numero` AS `numero`,`estacionamiento`.`vehiculo` AS `vehiculo`,`estacionamiento`.`estmoto` AS `estmoto`,`estacionamiento`.`estbici` AS `estbici`,`factura`.`idFactura` AS `idFactura`,`factura`.`vehiculo_cliente_cedula` AS `vehiculo_cliente_cedula`,`factura`.`usuario_cedula` AS `usuario_cedula`,`factura`.`usuario_rol_idrol` AS `usuario_rol_idrol`,`factura`.`costo_id` AS `costo_id`,`factura`.`estacionamiento_id` AS `estacionamiento_id`,`vehiculo`.`matricula` AS `matricula`,`vehiculo`.`marca` AS `marca`,`vehiculo`.`modelo` AS `modelo`,`vehiculo`.`cliente_cedula` AS `cliente_cedula`,`detallefactura`.`fechafactura` AS `fechafactura`,`detallefactura`.`horaingreso` AS `horaingreso`,`detallefactura`.`horasalida` AS `horasalida`,`detallefactura`.`duracion` AS `duracion`,`detallefactura`.`precio` AS `precio`,`detallefactura`.`iva` AS `iva`,`detallefactura`.`total` AS `total`,`detallefactura`.`factura_idFactura` AS `factura_idFactura`,`cliente`.`cedula` AS `cedula`,`cliente`.`nombre` AS `nombre`,`cliente`.`apellido` AS `apellido`,`cliente`.`telefono1` AS `telefono1`,`cliente`.`telefono2` AS `telefono2`,`tipo`.`idtipo` AS `idtipo`,`tipo`.`tipo` AS `tipo`,`tipo`.`descripcion` AS `descripcion` from (((((`estacionamiento` join `factura` on((`estacionamiento`.`id` = `factura`.`estacionamiento_id`))) join `vehiculo` on((`factura`.`vehiculo_cliente_cedula` = `vehiculo`.`cliente_cedula`))) join `tipo` on((`vehiculo`.`cliente_cedula` = `tipo`.`vehiculo_cliente_cedula`))) join `detallefactura` on((`factura`.`idFactura` = `detallefactura`.`factura_idFactura`))) join `cliente` on((`vehiculo`.`cliente_cedula` = `cliente`.`cedula`))) ;
-
--- --------------------------------------------------------
-
---
 -- Estructura para la vista `vistaparqueados`
 --
 DROP TABLE IF EXISTS `vistaparqueados`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vistaparqueados`  AS  select `estacionamiento`.`id` AS `id`,`estacionamiento`.`numero` AS `numero`,`estacionamiento`.`vehiculo` AS `vehiculo`,`estacionamiento`.`estmoto` AS `estmoto`,`estacionamiento`.`estbici` AS `estbici`,`factura`.`idFactura` AS `idFactura`,`factura`.`vehiculo_cliente_cedula` AS `vehiculo_cliente_cedula`,`factura`.`usuario_cedula` AS `usuario_cedula`,`factura`.`usuario_rol_idrol` AS `usuario_rol_idrol`,`factura`.`costo_id` AS `costo_id`,`factura`.`estacionamiento_id` AS `estacionamiento_id`,`vehiculo`.`matricula` AS `matricula`,`vehiculo`.`marca` AS `marca`,`vehiculo`.`modelo` AS `modelo`,`vehiculo`.`cliente_cedula` AS `cliente_cedula`,`detallefactura`.`fechafactura` AS `fechafactura`,`detallefactura`.`horaingreso` AS `horaingreso`,`detallefactura`.`horasalida` AS `horasalida`,`detallefactura`.`duracion` AS `duracion`,`detallefactura`.`precio` AS `precio`,`detallefactura`.`iva` AS `iva`,`detallefactura`.`total` AS `total`,`detallefactura`.`factura_idFactura` AS `factura_idFactura`,`cliente`.`cedula` AS `cedula`,`cliente`.`nombre` AS `nombre`,`cliente`.`apellido` AS `apellido`,`cliente`.`telefono1` AS `telefono1`,`cliente`.`telefono2` AS `telefono2`,`tipo`.`idtipo` AS `idtipo`,`tipo`.`tipo` AS `tipo`,`tipo`.`descripcion` AS `descripcion` from (((((`estacionamiento` join `factura` on((`estacionamiento`.`id` = `factura`.`estacionamiento_id`))) join `vehiculo` on((`factura`.`vehiculo_cliente_cedula` = `vehiculo`.`cliente_cedula`))) join `tipo` on((`vehiculo`.`cliente_cedula` = `tipo`.`vehiculo_cliente_cedula`))) join `detallefactura` on((`factura`.`idFactura` = `detallefactura`.`factura_idFactura`))) join `cliente` on((`vehiculo`.`cliente_cedula` = `cliente`.`cedula`))) where ((`vehiculo`.`cliente_cedula` = '$cedula') and (convert(`estacionamiento`.`vehiculo` using utf8) = `tipo`.`tipo`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vistaparqueados`  AS  select `estacionamiento`.`id` AS `id`,`estacionamiento`.`numero` AS `numero`,`estacionamiento`.`vehiculo` AS `vehiculo`,`estacionamiento`.`estmoto` AS `estmoto`,`estacionamiento`.`estbici` AS `estbici`,`factura`.`idFactura` AS `idFactura`,`factura`.`vehiculo_cliente_cedula` AS `vehiculo_cliente_cedula`,`factura`.`usuario_cedula` AS `usuario_cedula`,`factura`.`usuario_rol_idrol` AS `usuario_rol_idrol`,`factura`.`costo_id` AS `costo_id`,`factura`.`estacionamiento_id` AS `estacionamiento_id`,`vehiculo`.`matricula` AS `matricula`,`vehiculo`.`marca` AS `marca`,`vehiculo`.`modelo` AS `modelo`,`vehiculo`.`cliente_cedula` AS `cliente_cedula`,`detallefactura`.`fechafactura` AS `fechafactura`,`detallefactura`.`horaingreso` AS `horaingreso`,`detallefactura`.`horasalida` AS `horasalida`,`detallefactura`.`duracion` AS `duracion`,`detallefactura`.`precio` AS `precio`,`detallefactura`.`iva` AS `iva`,`detallefactura`.`total` AS `total`,`detallefactura`.`factura_idFactura` AS `factura_idFactura`,`cliente`.`cedula` AS `cedula`,`cliente`.`nombre` AS `nombre`,`cliente`.`apellido` AS `apellido`,`cliente`.`telefono1` AS `telefono1`,`cliente`.`telefono2` AS `telefono2`,`tipo`.`idtipo` AS `idtipo`,`tipo`.`tipo` AS `tipo`,`tipo`.`descripcion` AS `descripcion` from (((((`estacionamiento` join `factura` on((`estacionamiento`.`id` = `factura`.`estacionamiento_id`))) join `vehiculo` on((`factura`.`vehiculo_cliente_cedula` = `vehiculo`.`cliente_cedula`))) join `tipo` on((`vehiculo`.`cliente_cedula` = `tipo`.`vehiculo_cliente_cedula`))) join `detallefactura` on((`factura`.`idFactura` = `detallefactura`.`factura_idFactura`))) join `cliente` on((`vehiculo`.`cliente_cedula` = `cliente`.`cedula`))) ;
 
 --
 -- Restricciones para tablas volcadas
