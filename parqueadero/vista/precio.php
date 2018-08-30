@@ -67,25 +67,13 @@ $result1=$mysql->query("select * from costo where vehiculo='moto'")
 </table>
 <br>
 <table align="center">
-<tr><td><br><input type="submit" value="ACTUALIZAR"  class="btn btn-info" align="center"></br></td></tr>
+<tr><td><br><input type="submit" value="ACTUALIZAR"  class="btn btn-info" align="center" name="actualizar"></br></td></tr>
 </table>
 </form>
 <p name="error" align="center">
+
 <?php
-
-//if (isset($_REQUEST["error"])){ echo "<script>alert('error actualizando costo');</script>";};
-
-switch(isset($_REQUEST["error"]))
-{
-	case "bicicletasmes":
-	echo "<script>alert('error actualizando costo por mes en motos');</script>";
-	break;
-	case "motosmes":
-	echo "<script>alert('error actualizando costo por mes en bicicletas');</script>";
-	break;
-
-};
-
+if (isset($_REQUEST["error"])){ echo "<script>alert('error actualizando costo');</script>";};
 
 if (isset($_REQUEST["actualizado"])){ echo "<script>alert('se ha actualizado el precio');</script>";};
 ?>
