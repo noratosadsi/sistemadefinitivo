@@ -98,7 +98,6 @@ var fecha=(day + "/" + month + "/" + year);
 </table>
 </div>
 
-<script>alert("<?php echo $_POST['cedulaactualizar'].' cedulaactualizar';?>");</script>
 <?php
 
 
@@ -121,8 +120,6 @@ function consulta($mysql)
 	if(isset($_POST["posicion2"]))
 	{
 		$vehiculo="bicicleta";
-		echo "<script>alert(\"<?php echo '$vehiculo'; ?>\");</script>";
-
 	};
 	$cedula = $_POST['cedulaactualizar'];
     $lugar= $_POST['lugar'];
@@ -217,28 +214,24 @@ where factura.vehiculo_cliente_cedula=$cedula or estacionamiento.numero=$lugar")
 	if ($con["precio"]==$cos["pmin"])
 	{
 		$precio=$cos['pmin']/60;
-		echo "<script> alert('minutos');</script>";
 	};
 	//calcular por horas
 	if ($con["precio"]==$cos["phoras"])
 	{
 		$hora=$cos['phoras']/60;
 		$precio=$hora/60;
-		echo "<script> alert('horas');</script>";
 	};
 	//calcular por dias
 	if ($con["precio"]==$cos["pdias"])
 	{
 		$dia=$cos['pdias']/1440;
 		$precio=$dia/60;
-		echo "<script> alert('dias');</script>";
 	};
 	//calcular po mes
 	if ($con["precio"]==$cos["pmensual"])
 	{
 		$mes=$cos['pmensual']/43800;
 		$precio=$mes/60;
-		echo "<script> alert('mes');</script>";
 	};
 
 	//actualiza los datos registrando la salida del vehículo
@@ -511,7 +504,6 @@ document.getElementsByName("costotarif")[0].value = z;
 
 }
 
-alert ("<?php echo $con['numero'].' loquesea '.$con['vehiculo']?>");
 </script>
 
 
