@@ -267,12 +267,31 @@ include "modelo/cupos.php";
 										<label for="formGroupExampleInput">Cedula</label>
 										<input type="text" name="cedulacliente" class="form-control" value="<?php echo $cedula; ?>"  id="formGroupExampleInput" placeholder="Cedula">
 									</div>
+
+									<div class="form-group col-xs-2 col-md-2">
+										<label for="formGroupExampleInput">Nombres</label>
+										<input type="text" name="nombre" value="<?php echo $con['nombre']; ?>" <?php echo $estilo, $readonly; ?>>
+									</div>
+
+								<div class="form-group col-xs-2 col-md-2">
+										<label>Apellidos</label>
+										<input type="text" name="apellido" value="<?php echo $con['apellido']; ?>" <?php echo $estilo, $readonly; ?>>
+								</div
+
+								<div class="form-group col-xs-2 col-md-2">
+									<label>Telefono 1</label>
+									<input type="text" name="telefono1" value="<?php echo $con['telefono1']; ?>" <?php echo $estilo, $readonly; ?>>
+								</div>
+
+								<div class="form-group col-xs-2 col-md-2">
+									<label>Telefono 2</label>
+									<input type="text" name="telefono2" value="<?php echo $con['telefono2']; ?>" <?php echo $estilo, $readonly; ?>>
+								</div>
+
+
 									<!-- <button onclick="window.location.href='index.php'" type="button" class="btn btn-primary btn-sm" disabled> -->
 									<!-- <span class="glyphicon glyphicon-refresh"></span>&nbsp;Validar</button></td> -->
-									<div class="form-group col-xs-2 col-md-2">
-										<label>Placa o Matricula</label>
-										<input type="text" name="matricula" value="<?php echo $con['matricula']; ?>" <?php echo $estilo, $readonly; ?>>
-									</div>
+									
 
 									<div class="form-group col-xs-2 col-md-2">
 										<label>Fecha y hora de Ingreso</label>
@@ -282,6 +301,21 @@ include "modelo/cupos.php";
 
 
 							<form class="form-inline col-xs-12 col-md-12">
+
+
+
+							<div class="form-group col-xs-2 col-md-2">
+										<label>Placa o Matricula</label>
+										<input type="text" name="matricula" value="<?php echo $con['matricula']; ?>" <?php echo $estilo, $readonly; ?>>
+									</div>
+
+	<div class="form-group col-xs-2 col-md-2">
+										<label>Marca</label>
+											<input type="text" name="marca" value="<?php echo $con['marca']; ?>" <?php echo $estilo, $readonly; ?>>
+									</div>
+
+
+
 								<div class="form-group col-xs-2 col-md-2">
 										<label for="formGroupExampleInput">Nombres</label>
 										<input type="text" name="nombre" value="<?php echo $con['nombre']; ?>" <?php echo $estilo, $readonly; ?>>
@@ -299,6 +333,7 @@ include "modelo/cupos.php";
 									</div>
 								</form>
 
+							<form class="form-inline col-xs-12 col-md-12">
 								<div class="form-group col-xs-2 col-md-2">
 										<label>Apellidos</label>
 										<input type="text" name="apellido" value="<?php echo $con['apellido']; ?>" <?php echo $estilo, $readonly; ?>>
@@ -312,56 +347,79 @@ include "modelo/cupos.php";
 
 
 
-								
-								<div class="form-group col-xs-2 col-md-2">
+
+								<div class="form-inline col-xs-2 col-md-2">
 									<label>Tiempo de permanencia</label>
-									<input type="text" name="permanencia" value="<?php echo $act["duracion"]; ?>" readonly>
+									<label><?php echo $act["duracion"]; ?>></label>
 								</div>
+								</form>
 
 
-							
-							
-								</tr>
-									<td>Telefono 1</td>
-									<input type="text" name="telefono1" value="<?php echo $con['telefono1']; ?>" <?php echo $estilo, $readonly; ?>>
-									<td></td>
-									<td>Tipo</td>
-									<!--CAMPO TIPO VEHICULO SELECCIONADO-->
+
+								<form class="form-inline col-xs-2 col-md-2">
+
+
+
+
+								<div class="form-group col-xs-2 col-md-2">
+									<label class="my-1 mr-2">Tipo</label>
 									<input type="hidden" id="veh" name="vehiculo1">
-									<select onchange="myFunction()"  id="vehiculo" name="tipo">
+									<!--CAMPO TIPO VEHICULO SELECCIONADO-->
+									<select class="custom-select my-1 mr-sm-2"onchange="myFunction()"  id="vehiculo" name="tipo">
 									<?php
 
 //muestra ambos vehículos para seleccionar en caso de que el vehículo ingrese al parqueadero
 
 if (!isset($con["numero"])) {
-    echo "<option value='moto'>motititio</option>";
-    echo "<option value=\"motos\">moto</option>";
-    echo "<option value=\"bicicleta\">bicicleta</option>";
+    echo "<option selected value='moto'>motititio</option>";
+    echo "<option selected value=\"motos\">moto</option>";
+    echo "<option selected value=\"bicicleta\">bicicleta</option>";
 }
 //muestra el vehículo parqueado sin opción de seleccionar otro vehículo
 
 if (isset($con["numero"])) {
     if ($con['vehiculo'] == "moto") {
-        echo "<option value=\"moto\">moto</option>";
+        echo "<option selected value=\"moto\">moto</option>";
     }
     if ($con['vehiculo'] == "bicicleta") {
-        echo "<option value=\"bicicleta\">bicicleta</option>";
+        echo "<option selected value=\"bicicleta\">bicicleta</option>";
     }
 }
 ?>
 									</select>
-									<td>Precio</td>
-									<input type="text" name="precio" value="<?php echo "$" . $act["total"]; ?>" readonly>
-								</tr>
-									<td>Telefono 2</td>
-									<input type="text" name="telefono2" value="<?php echo $con['telefono2']; ?>" <?php echo $estilo, $readonly; ?>>
-									<td></td>
-									<td>Descripcion / Observacion</td>
+								</div>
+
+
+								<div class="form-group col-xs-2 col-md-2">
+									<label>Precio 1</label>
+									<label> "<?php echo "$" . $act["total"]; ?>"</label>
+								</div>
+									<!-- <td>Precio</td>
+									<input type="text" name="precio" value="<?php echo "$" . $act["total"]; ?>" readonly> -->
+							</form>
+
+
+
+								
+
+								<div class="form-group col-xs-2 col-md-2">
+									<label>Descripcion / Observacion</label>
 									<input type="text" name="descripcion" value="<?php echo $con['descripcion']; ?>" <?php echo $estilo, $readonly; ?>>
-									<td>IVA</td>
-									<input type="text" name="iva" value="<?php echo "$" . $act["iva"]; ?>" readonly>
-								</tr>
-							</table>
+								</div>
+
+
+								<div class="form-group col-xs-2 col-md-2">
+									<label>IVA</label>
+									<label> <?php echo "$" . $act["iva"]; ?>" </label>
+								</div>
+								</form>
+
+
+
+
+
+
+
 							<table border="0" align="center" class="alert alert-default">
 								<tr>
 									<td colspan="10" align="center" class="panel panel-default">ESTACIONAMIENTOS</td>
@@ -373,7 +431,7 @@ if (isset($con["numero"])) {
 								</tr>
 								<tr>
 									<td colspan="5">
-									<?php+
+									<?php
 
 //consulta si está estacionado
 
