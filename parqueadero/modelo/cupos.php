@@ -46,7 +46,8 @@ if ($bdisp==0)
 
 //ver el número del parqueadero 
 
-$moto=$mysql->query("select * from estacionamiento where vehiculo='moto'")
+$moto=$mysql->query("select * from estacionamiento inner join cupos 
+on estacionamiento.cupos_id=cupos.id where cupos.vehiculo='moto'")
 	or die ($mysql->error);
 	
 	while ($estmot=$moto->fetch_array())
@@ -55,18 +56,8 @@ $moto=$mysql->query("select * from estacionamiento where vehiculo='moto'")
 	};
 
 
-/*
-$moto=$mysql->query("select estacionamiento from parqueados where tipo='moto'")
-	or die ($mysql->error);
-	
-	while ($estmot=$moto->fetch_array())
-	{
-		$estmoto[]=$estmot["estacionamiento"];
-	}
-
-
-*/	
-$bicicleta=$mysql->query("select * from estacionamiento where vehiculo='bicicleta'")
+$bicicleta=$mysql->query("select * from estacionamiento inner join cupos 
+on estacionamiento.cupos_id=cupos.id where cupos.vehiculo='bicicleta'")
 	or die ($mysql->error);
 
 	while ($estbic=$bicicleta->fetch_array())

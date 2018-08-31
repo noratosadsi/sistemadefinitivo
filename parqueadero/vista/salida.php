@@ -92,35 +92,7 @@ $cedula = $_POST['cedulacliente'];
 
 include '../modelo/config.php';
 include "../modelo/cupos.php";
-
-
-
- /* $salida=$mysql->query("select factura.*, costo.* from factura
-	inner join costo on factura.costo_id=costo.id
-	inner join detallefactura on factura.idFactura=detallefactura.factura_idFactura
-	where vehiculo_cliente_cedula=$cedula and detallefactura.horasalida is null");
-	if ($mysql->error)
-	die (header ("Location: ../index.php?error2=si"));   
-	$sal=$salida->fetch_array(); */
-	
-	
-    /* $verificar=$mysql->query("select factura.*, costo.* from factura
-	inner join costo on factura.costo_id=costo.id
-	inner join detallefactura on factura.idFactura=detallefactura.factura_idFactura
-	where vehiculo_cliente_cedula=$cedula");
-	if ($mysql->error)
-	die ("Ingreso no válido");  
-	$ver=$verificar->fetch_array();
-	
-	if (is_numeric($ver["vehiculo_cliente_cedula"]))
-	{
-		$error="Ya se ha registrado la salida de éste usuariooooo";
-	}
-	else
-	{
-		$error="Número de cédula no se encuentra registrado";
-	} */
-	
+  	
 	//calcular el precio dependiendo si es por minutos, dias, horas o mes
 	
 	//calcular por minutos
@@ -161,19 +133,6 @@ include "../modelo/cupos.php";
 	
 	//actualiza los datos dejando nuevamente el numero del estacionamiento disponible
 	
-/*     $mysql->query("update detallefactura
-    inner join factura
-    on detallefactura.factura_idFactura=factura.idFactura 
-    set fechafactura=now(),
-	horasalida=now(),
-    duracion=timediff(horasalida,horaingreso),
-	precio=time_to_sec(duracion)*$precio,
-    iva=precio*0.19,
-    total=precio+iva
-    where idFactura=$sal[idFactura] and horasalida is null;");
-	if ($mysql->error)
-	die (header ("Location: ../index.php?error=$error")); */
-
 	$mysql->query("update estacionamiento
 	inner join vistaparqueados
 	on estacionamiento.id=vistaparqueados.id
@@ -182,26 +141,6 @@ include "../modelo/cupos.php";
 	if ($mysql->error)
 	die ($mysql->error." error al actualizar ".$mysql->errno);
 
-
-	
-
-//seleccionar los parqueados
-$consulta=$mysql->query("select * from parqueados where cedulaclie=$cedula")
-or die ($mysql->error);
-$con=$consulta->fetch_array();
-	
-//calcular el precio sin iva
-$total=$con["total"]+$con["iva"];	
-
-//inserta el registro en la tabla historicofacturado
-
-$mysql->query("insert into historicofacturado (nomusu, apeusu, fechafacturado, cedulaclie,nomclie, apeclie, telclie1, telclie2, matricula, marca, modelo, tipo, descripcion, horaingreso, horasalida, duracion, precio, iva, total) values ('$con[nomusu]','$con[apeusu]','$con[fechafacturado]','$con[cedulaclie]','$con[nomclie]','$con[apeclie]','$con[telclie1]','$con[telclie2]','$con[matricula]','$con[marca]','$con[modelo]','$con[tipo]','$con[descripcion]','$con[horaingreso]','$con[horasalida]','$con[duracion]','$con[total]','$con[iva]','$total')")
-    or die ($mysql->error);
-	
-//eliminar el vehiculo actualmente parqueado
-
-$mysql->query("delete from parqueados where cedulaclie=$cedula")
-or die ($mysql->error);
 ?>
 
 <table border="0" width="95%" class="alert alert-success" align="center" Style="font-family: Arial; font-size: 10pt;"> 
@@ -209,7 +148,7 @@ or die ($mysql->error);
 <td>Cedula</td>
 <td>&nbsp;&nbsp;<input type="text" name="cedulacliente" value="<?php echo $_POST["cedulacliente"]; ?>" disabled>&nbsp;&nbsp;</td>
 <td rowspan="2" valign="center">
-<button onclick="window.location.href='index.php'" type="button" class="btn btn-primary btn-sm">
+<button onclick="window.location.href='index.php'" type="button" class="btn btn-primary btn-sm" disabled>
 <span class="glyphicon glyphicon-refresh"></span>&nbsp;Validar</button></td>
 <td>Placa o Matricula</td>
 <td>&nbsp;&nbsp;<input type="text" name="matricula" value="<?php echo $_POST["matricula"]; ?>" disabled>&nbsp;&nbsp;</td>
@@ -247,7 +186,7 @@ echo "<option value='$_POST[tipo]'> $_POST[tipo] </option>";
 ?>
 </select>&nbsp;&nbsp;</td>
 <td>Precio</td>
-<td>&nbsp;&nbsp;<input type="text" disabled value="<?php echo "$".$_POST['precio']?>">&nbsp;&nbsp;</td>
+<td>&nbsp;&nbsp;<input type="text" disabled value="<?php echo $_POST['precio']?>">&nbsp;&nbsp;</td>
 </tr>
 
 <tr align="center">
@@ -257,7 +196,7 @@ echo "<option value='$_POST[tipo]'> $_POST[tipo] </option>";
 <td>Descripcion / Observacion</td>
 <td>&nbsp;&nbsp;<input type="text" name="descripcion" value="<?php echo $_POST["descripcion"]; ?>" disabled>&nbsp;&nbsp;</td>
 <td>IVA</td>
-<td>&nbsp;&nbsp;<input type="text" disabled value="<?php echo "$".$_POST['iva']?>">&nbsp;&nbsp;</td>
+<td>&nbsp;&nbsp;<input type="text" disabled value="<?php echo $_POST['iva']?>">&nbsp;&nbsp;</td>
 </tr>
 </table>
 <table border="0" align="center" class="alert alert-success"> 

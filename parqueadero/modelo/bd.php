@@ -102,10 +102,10 @@ if ($_POST["ingresar"])
 	  }
 	  
       //inserta los datos del estacionamiento
-      $mysql->query("insert into estacionamiento (numero, vehiculo, cupos_id) values ($_REQUEST[lugar], '$_REQUEST[tipo]', $preciovehiculo)")
+      $mysql->query("insert into estacionamiento (numero, cupos_id) values ($_REQUEST[lugar], $preciovehiculo)")
       or die ($mysql->error." error al ingresar numero estacionamiento");
   
-      $estacionamiento=$mysql->query("select * from estacionamiento where numero=$_REQUEST[lugar] and vehiculo='$_REQUEST[tipo]'")
+      $estacionamiento=$mysql->query("select * from estacionamiento where numero=$_REQUEST[lugar] and cupos_id=$preciovehiculo")
       or die ($mysql->error);
       $est=$estacionamiento->fetch_array();
 

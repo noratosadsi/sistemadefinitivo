@@ -49,13 +49,6 @@ function borrarlista($mysql)
 	$mysql->query("delete from cliente
     where cedula=$_REQUEST[cedulaborrar];")
 	or die($mysql->error);
-    
-	//borrar registro de la tabla historicofacturado
-	$mysql->query("delete from historicofacturado
-    where cedulaclie=$_REQUEST[cedulaborrar];")
-	or die($mysql->error);
-
-	
     $mysql->close();
 };
    //var_dump($_REQUEST["cedulaborrar"]);
