@@ -386,23 +386,76 @@ include "modelo/cupos.php";
 <td></td>
 <td>Tipo</td>
 <!--CAMPO TIPO VEHICULO SELECCIONADO-->
-<input type="hidden" id="veh" name="vehiculo1" >
+<input type="hidden" id="veh" name="vehiculo1">
 
-<td>&nbsp;&nbsp;<select onchange="myFunction()" id="vehiculo" name="tipo">
+<td>&nbsp;&nbsp;<select onchange="myFunction()"  id="vehiculo" name="tipo">
 <?php 
 
 //muestra ambos vehículos para seleccionar en caso de que el vehículo ingrese al parqueadero
 
 if(!isset($con["numero"]))
 {
-	echo "<option value=''></option>";
-	echo "<option value=\"moto\">moto</option>";
+	echo "<option value='moto'>motititio</option>";
+	echo "<option value=\"motos\">moto</option>";
 	echo "<option value=\"bicicleta\">bicicleta</option>";
 }
 ?>
 <script>
+//comprueba si se ha seleccionado moto o bicicleta
+
+function imprimirValor(){
+  var select = document.getElementById("vehiculo");
+  //var options=document.getElementsByTagName("option");
+  alert(select.value);
+  //alert(options[select.value-1].innerHTML);
+  
+  if (select.value=="moto")
+{
+	
+	var mensaje="<?php $mensaje="hoja amigou motou";?>";
+	alert("<?php echo $mensaje;?>");
+}
+ 
+  if (select.value=="bicicleta")
+{
+	var mensaje="<?php $mensaje="hoja como estas bicicleta";?>";
+	alert("<?php echo $mensaje;?>");
+}
+}
+
+
+window.onload = function() {
+  myFunction();
+};
+
 function myFunction() {
 
+//verifica si se ha seleccionado moto o bicicleta
+var select = document.getElementById("vehiculo");
+  //var options=document.getElementsByTagName("option");
+  alert(select.value);
+  //alert(options[select.value-1].innerHTML);
+  
+  if (select.value=="moto")
+{
+	var mensaje="<?php $mensaje="hoja amigou motou";?>";
+	var deshabilitar="<?php echo $desmoto="disabled";?>";
+
+	alert("<?php echo $desmoto;?>");
+}
+else
+{
+	var deshabilitar="<?php $desmoto="";?>";
+	alert("<?php echo $desmoto." no hay nada";?>");
+}
+ 
+  if (select.value=="bicicleta")
+{
+	var mensaje="<?php $mensaje="hoja como estas bicicleta";?>";
+	alert("<?php echo $mensaje;?>");
+}
+
+//verifica el vehiculo y la tarifa
 if((
 (document.getElementById("r1").checked == true) 
 |  (document.getElementById("r2").checked == true) 
@@ -433,8 +486,6 @@ document.getElementsByName("tarifa1")[0].value = sel;
 	vehiculo = (document.getElementsByTagName("option")[x].value);
 	//alert (vehiculo);
 	document.getElementsByName("vehiculo1")[0].value = vehiculo;
-
-
 
 // Calcula costo	
 var veh = document.getElementById('veh').value;
@@ -639,7 +690,7 @@ document.getElementsByName("lugar")[0].value = seleccionbici;
 			else
 			{
 				echo "<td align='center' style='width:30px'>";
-			    echo "<input type='button' name='posicion' $usar style='width:30px' value='$i'></td>";	
+			    echo "<input type='button' name='posicion' $usar style='width:30px' value='$i' $desmoto></td>";	
 			}
 			
 			
